@@ -5,8 +5,11 @@ library(hrbrthemes)
 data <- read.csv('https://raw.githubusercontent.com/emrullahozkilinc/machine-learning/master/dataset/Social_Network_Ads.csv')
 
 #Descriptive Stats
-hist(data$Age, breaks = 20)
-hist(data$EstimatedSalary, breaks = 20)
+hist(data$Age, breaks = 20, 
+     main = 'Yaþ Daðýlým Grafiði', 
+     xlab = 'Yaþ', ylab = 'Frekans')
+hist(data$EstimatedSalary, breaks = 20, 
+     main = 'Reklam Bütçesi', xlab = 'Dolar($)', ylab = 'Freakans')
 summary(data)
 sapply(data, nmiss)
 sum(is.na(data$Age))
@@ -44,12 +47,14 @@ ggplot(clustered_data.km, aes(x=Age, y=EstimatedSalary, color=Purchased)) +
   theme_ipsum(base_family = "Comic Sans MS", base_size = 16)
 success_rate.km <- (table(km$cluster, data$Purchased)[1,1]+
                     table(km$cluster, data$Purchased)[2,2])/400
+table(km$cluster, data$Purchased)
 
 #Hierarchical Clustering
 hier <- hclust(dist(scaled_data[,0:1]), method = 'average')
 plot(hier)
 clusterc <- cutree(hier,2)
 table(clusterc, data$Purchased)
+clustered_data.hc <- data
 clustered_data.hc['Purchased'] <- clusterc
 ggplot(clustered_data.hc, aes(x=Age, y=EstimatedSalary, color=Purchased)) + 
   ggtitle("Ürünü Alanlar vs Almayanlar") + 
